@@ -6,30 +6,35 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.Map;
+
 @Service
 @Slf4j
 public class TaxationService implements ITaxationService{
 
-    //@Value("${general.tax}")
-    //private double tax;
+    @Value("#{${taxation.traders.rate}}")
+    private Map<String, Double> rates;
+
+    @Value("#{${taxation.traders.amount}}")
+    private Map<String, Double> amounts;
 
     @Override
-    public Outgoing generalByRate(Incoming data) {
+    public Outgoing generalByRate(Incoming data, String trader) {
         return null;
     }
 
     @Override
-    public Outgoing generalByAmount(Incoming data) {
+    public Outgoing generalByAmount(Incoming data, String trader) {
         return null;
     }
 
     @Override
-    public Outgoing winningsByRate(Incoming data) {
+    public Outgoing winningsByRate(Incoming data, String trader) {
         return null;
     }
 
     @Override
-    public Outgoing winningsByAmount(Incoming data) {
+    public Outgoing winningsByAmount(Incoming data, String trader) {
         return null;
     }
 }

@@ -7,15 +7,12 @@ import com.paurus.betting.service.TaxationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @RestController
-@RequestMapping("/api/taxation")
+@RequestMapping("/api/taxation/")
 public class TaxationController {
 
     @Autowired
@@ -25,9 +22,9 @@ public class TaxationController {
     TaxationService taxationService;
 
     @RequestMapping(value = "/general/rate", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
-    public ResponseEntity<Outgoing> calculateTaxByGeneralRate(@RequestBody Incoming request) {
+    public ResponseEntity<Outgoing> calculateTaxByGeneralRate(@RequestBody Incoming request, @RequestParam(name = "trader") String trader) {
         try {
-            Outgoing response = null;
+            Outgoing response = taxationService.generalByRate(request, trader);
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

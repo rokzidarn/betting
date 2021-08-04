@@ -4,8 +4,8 @@ import com.paurus.betting.json.Incoming;
 import com.paurus.betting.json.Outgoing;
 
 public interface ITaxationService {
-    Outgoing generalByRate(Incoming data);
-    Outgoing generalByAmount(Incoming data);
-    Outgoing winningsByRate(Incoming data);
-    Outgoing winningsByAmount(Incoming data);
+    Outgoing generalByRate(Incoming data, String trader);
+    Outgoing generalByAmount(Incoming data, String trader);
+    Outgoing winningsByRate(Incoming data, String trader);
+    Outgoing winningsByAmount(Incoming data, String trader);
 }
