@@ -1,0 +1,19 @@
+openapi: 3.0.0
+info:
+  title: Taxation API
+  description: Rest API task
+  version: 0.1.9
+paths:
+  /api/taxation/general/rate/:
+    post:
+      summary: Returns tax data.
+      description: Taxation is a term for when a taxing authority imposes a tax. Imagine having multiple web sites in many countries out of which each must follow different local taxation rules and calculations.
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  type: string
