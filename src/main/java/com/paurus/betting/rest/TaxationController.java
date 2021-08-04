@@ -30,4 +30,34 @@ public class TaxationController {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @RequestMapping(value = "/general/amount", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Outgoing> calculateTaxByGeneralAmount(@RequestBody Incoming request, @RequestParam(name = "trader") String trader) {
+        try {
+            Outgoing response = taxationService.generalByAmount(request, trader);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/winnings/rate", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Outgoing> calculateTaxByWinningsRate(@RequestBody Incoming request, @RequestParam(name = "trader") String trader) {
+        try {
+            Outgoing response = taxationService.winningsByRate(request, trader);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @RequestMapping(value = "/winnings/amount", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    public ResponseEntity<Outgoing> calculateTaxByWinningsAmount(@RequestBody Incoming request, @RequestParam(name = "trader") String trader) {
+        try {
+            Outgoing response = taxationService.winningsByAmount(request, trader);
+            return new ResponseEntity<>(response, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

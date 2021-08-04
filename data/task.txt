@@ -30,9 +30,11 @@ Your service must support two types of taxation:
         7.5EUR * 0.1 = 0.75EUR => possible return amount is 7.5EUR - 0.75EUR = 6.75
     amount: 2EUR
         7.5EUR - 2EUR = 5.5EUR => possible return amount is 5.5EUR
+
 2. Winnings
     - winnings amount: 7.5EUR - 5EUR = 2.5EUR
     - taxation is done per rate or per amount:
+
     rate: 10%
         2.5EUR * 0.1 = 0.25EUR => possible return amount is 7.5EUR - 0.25EUR = 7.25EUR
     amount: 1EUR

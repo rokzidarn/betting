@@ -6,8 +6,32 @@ info:
 paths:
   /api/taxation/general/rate/:
     post:
-      summary: Returns tax data.
+      summary: Returns general tax data by rate.
       description: Taxation is a term for when a taxing authority imposes a tax. Imagine having multiple web sites in many countries out of which each must follow different local taxation rules and calculations.
+      parameters:
+        - in: query
+          name: trader
+          schema:
+            type: string
+          required: true
+          description: String value of trader (country)
+      requestBody:
+        description: Incoming object for request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                traderId:
+                  type: integer
+                  description: The trader ID.
+                playedAmount:
+                  type: number
+                  description: Amount of money put on the line.
+                odd:
+                  type: number
+                  description: Odds value.
       responses:
         '200':
           description: Object
@@ -15,5 +39,172 @@ paths:
             application/json:
               schema:
                 type: object
-                items:
-                  type: string
+                properties:
+                  possibleReturnAmount:
+                    type: number
+                    description: Possible return amount.
+                  possibleReturnAmountBefTax:
+                    type: number
+                    description: Possible return amount before tax.
+                  possibleReturnAmountAfterTax:
+                    type: number
+                    description: Possible return amount after tax.
+                  taxRate:
+                    type: number
+                    description: Tax rate.
+                  taxAmount:
+                    type: number
+                    description: Tax amount.
+  /api/taxation/general/amount/:
+    post:
+      summary: Returns general tax data by amount.
+      description: Taxation is a term for when a taxing authority imposes a tax. Imagine having multiple web sites in many countries out of which each must follow different local taxation rules and calculations.
+      parameters:
+        - in: query
+          name: trader
+          schema:
+            type: string
+          required: true
+          description: String value of trader (country)
+      requestBody:
+        description: Incoming object for request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                traderId:
+                  type: integer
+                  description: The trader ID.
+                playedAmount:
+                  type: number
+                  description: Amount of money put on the line.
+                odd:
+                  type: number
+                  description: Odds value.
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  possibleReturnAmount:
+                    type: number
+                    description: Possible return amount.
+                  possibleReturnAmountBefTax:
+                    type: number
+                    description: Possible return amount before tax.
+                  possibleReturnAmountAfterTax:
+                    type: number
+                    description: Possible return amount after tax.
+                  taxRate:
+                    type: number
+                    description: Tax rate.
+                  taxAmount:
+                    type: number
+                    description: Tax amount.
+  /api/taxation/winnings/rate/:
+    post:
+      summary: Returns winnings tax data by rate.
+      description: Taxation is a term for when a taxing authority imposes a tax. Imagine having multiple web sites in many countries out of which each must follow different local taxation rules and calculations.
+      parameters:
+        - in: query
+          name: trader
+          schema:
+            type: string
+          required: true
+          description: String value of trader (country)
+      requestBody:
+        description: Incoming object for request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                traderId:
+                  type: integer
+                  description: The trader ID.
+                playedAmount:
+                  type: number
+                  description: Amount of money put on the line.
+                odd:
+                  type: number
+                  description: Odds value.
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  possibleReturnAmount:
+                    type: number
+                    description: Possible return amount.
+                  possibleReturnAmountBefTax:
+                    type: number
+                    description: Possible return amount before tax.
+                  possibleReturnAmountAfterTax:
+                    type: number
+                    description: Possible return amount after tax.
+                  taxRate:
+                    type: number
+                    description: Tax rate.
+                  taxAmount:
+                    type: number
+                    description: Tax amount.
+  /api/taxation/winnings/amount/:
+    post:
+      summary: Returns winnings tax data by amount.
+      description: Taxation is a term for when a taxing authority imposes a tax. Imagine having multiple web sites in many countries out of which each must follow different local taxation rules and calculations.
+      parameters:
+        - in: query
+          name: trader
+          schema:
+            type: string
+          required: true
+          description: String value of trader (country)
+      requestBody:
+        description: Incoming object for request
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                traderId:
+                  type: integer
+                  description: The trader ID.
+                playedAmount:
+                  type: number
+                  description: Amount of money put on the line.
+                odd:
+                  type: number
+                  description: Odds value.
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  possibleReturnAmount:
+                    type: number
+                    description: Possible return amount.
+                  possibleReturnAmountBefTax:
+                    type: number
+                    description: Possible return amount before tax.
+                  possibleReturnAmountAfterTax:
+                    type: number
+                    description: Possible return amount after tax.
+                  taxRate:
+                    type: number
+                    description: Tax rate.
+                  taxAmount:
+                    type: number
+                    description: Tax amount.

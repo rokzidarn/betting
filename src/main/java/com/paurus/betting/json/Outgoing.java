@@ -11,7 +11,13 @@ public class Outgoing implements Serializable {
     private double possibleReturnAmount;
     private double possibleReturnAmountBefTax;
     private double possibleReturnAmountAfterTax;
-    private double taxRate;
-    private double taxAmount;
-    private String error;
+
+    @Builder.Default
+    private double taxRate = 0.0;
+
+    @Builder.Default
+    private double taxAmount = 0.0;
+
+    @Builder.Default
+    private String error = null;
 }
