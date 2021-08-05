@@ -50,5 +50,6 @@ public class Taxation implements Serializable {
     private double taxRate = 0.0;
 
     @Column(name = "tax_amount")
+    @Builder.Default
     private double taxAmount = 0.0;
 }

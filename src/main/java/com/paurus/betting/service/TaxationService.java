@@ -13,16 +13,16 @@ import java.util.Map;
 public class TaxationService implements ITaxationService{
 
     @Value("#{${taxation.traders.rate}}")
-    private Map<String, Double> rates;
+    private Map<Integer, Double> rates;
 
     @Value("#{${taxation.traders.amount}}")
-    private Map<String, Double> amounts;
+    private Map<Integer, Double> amounts;
 
     // TODO: refactor, join method rate/amount
 
     @Override
-    public Outgoing generalByRate(Incoming data, String trader) {
-        Double taxRate = rates.get(trader);
+    public Outgoing generalByRate(Incoming data) {
+        Double taxRate = rates.get(data.getTraderId());
         Outgoing.OutgoingBuilder response = Outgoing.builder();
 
         if (taxRate != null) {
@@ -43,8 +43,8 @@ public class TaxationService implements ITaxationService{
     }
 
     @Override
-    public Outgoing generalByAmount(Incoming data, String trader) {
-        Double taxAmount = amounts.get(trader);
+    public Outgoing generalByAmount(Incoming data) {
+        Double taxAmount = amounts.get(data.getTraderId());
         Outgoing.OutgoingBuilder response = Outgoing.builder();
 
         if (taxAmount != null) {
@@ -65,8 +65,8 @@ public class TaxationService implements ITaxationService{
     }
 
     @Override
-    public Outgoing winningsByRate(Incoming data, String trader) {
-        Double taxRate = rates.get(trader);
+    public Outgoing winningsByRate(Incoming data) {
+        Double taxRate = rates.get(data.getTraderId());
         Outgoing.OutgoingBuilder response = Outgoing.builder();
 
         if (taxRate != null) {
@@ -87,8 +87,8 @@ public class TaxationService implements ITaxationService{
     }
 
     @Override
-    public Outgoing winningsByAmount(Incoming data, String trader) {
-        Double taxAmount = amounts.get(trader);
+    public Outgoing winningsByAmount(Incoming data) {
+        Double taxAmount = amounts.get(data.getTraderId());
         Outgoing.OutgoingBuilder response = Outgoing.builder();
 
         if (taxAmount != null) {
