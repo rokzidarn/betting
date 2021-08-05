@@ -25,6 +25,10 @@ public class TaxationController {
     public ResponseEntity<Outgoing> calculateTaxByGeneralRate(@RequestBody Incoming request) {
         try {
             Outgoing response = taxationService.generalByRate(request);
+            if (response.getError() == null) {
+                taxationRepository.save(taxationService.createEntity(request, response));
+            }
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -35,6 +39,10 @@ public class TaxationController {
     public ResponseEntity<Outgoing> calculateTaxByGeneralAmount(@RequestBody Incoming request) {
         try {
             Outgoing response = taxationService.generalByAmount(request);
+            if (response.getError() == null) {
+                taxationRepository.save(taxationService.createEntity(request, response));
+            }
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -45,6 +53,10 @@ public class TaxationController {
     public ResponseEntity<Outgoing> calculateTaxByWinningsRate(@RequestBody Incoming request) {
         try {
             Outgoing response = taxationService.winningsByRate(request);
+            if (response.getError() == null) {
+                taxationRepository.save(taxationService.createEntity(request, response));
+            }
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,6 +67,10 @@ public class TaxationController {
     public ResponseEntity<Outgoing> calculateTaxByWinningsAmount(@RequestBody Incoming request) {
         try {
             Outgoing response = taxationService.winningsByAmount(request);
+            if (response.getError() == null) {
+                taxationRepository.save(taxationService.createEntity(request, response));
+            }
+
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

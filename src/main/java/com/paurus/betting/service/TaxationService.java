@@ -2,6 +2,7 @@ package com.paurus.betting.service;
 
 import com.paurus.betting.json.Incoming;
 import com.paurus.betting.json.Outgoing;
+import com.paurus.betting.model.Taxation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -106,5 +107,19 @@ public class TaxationService implements ITaxationService{
         }
 
         return response.build();
+    }
+
+    @Override
+    public Taxation createEntity(Incoming request, Outgoing response) {
+        return Taxation.builder()
+                .traderId(request.getTraderId())
+                .playedAmount(request.getPlayedAmount())
+                .odd(request.getOdd())
+                .taxRate(response.getTaxRate())
+                .taxAmount(response.getTaxAmount())
+                .possibleReturnAmount(response.getPossibleReturnAmount())
+                .possibleReturnAmountBefTax(response.getPossibleReturnAmountBefTax())
+                .possibleReturnAmountAfterTax(response.getPossibleReturnAmountAfterTax())
+                .build();
     }
 }

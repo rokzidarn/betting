@@ -74,7 +74,7 @@ public class TaxationRestTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.taxRate").value(0.1));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.possibleReturnAmountAfterTax").value(6.75));
     }
 
     @Test

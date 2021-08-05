@@ -25,7 +25,6 @@ public class Taxation implements Serializable {
     private double playedAmount;
 
     @Column(name = "odd")
-    @NonNull
     private double odd;
 
     @Column(name = "created")

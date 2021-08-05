@@ -1,7 +1,6 @@
 openapi: 3.0.0
 info:
-  title: Taxation API
-  description: Rest API task
+  title: TAXATION API
   version: 0.1.9
 paths:
   /api/taxation/general/rate/:
