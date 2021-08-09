@@ -1,0 +1,23 @@
+// batch
+    https://vladmihalcea.com/the-best-way-to-do-batch-processing-with-jpa-and-hibernate/
+    https://medium.com/@jerolba/persisting-fast-in-database-1af4a281e3a
+
+// double linked list
+    https://stackoverflow.com/questions/330482/best-way-to-save-a-ordered-list-to-the-database-while-keeping-the-ordering
+    https://stackoverflow.com/questions/8725387/why-is-there-no-sortedlist-in-java
+
+// jira rank
+    https://softwareengineering.stackexchange.com/questions/195308/storing-a-re-orderable-list-in-a-database
+    https://www.youtube.com/watch?v=OjQv9xMoFbg&ab_channel=AhmadAzfar
+    https://docs.atlassian.com/jira-software/6.6.60/com/atlassian/greenhopper/model/lexorank/LexoRank.html
+    https://steve.dignam.xyz/2020/03/31/practical-ordering/
+    https://stackoverflow.com/questions/13409121/how-should-i-store-sorted-items-in-a-database
+    https://blog.b123400.net/storing-an-ordered-list-in-database/
+    https://www.geeksforgeeks.org/lexicographic-rank-of-a-string/
+    https://stackoverflow.com/questions/9536262/best-representation-of-an-ordered-list-in-a-database/49956113
+    https://github.com/xissy/lexorank
+
+// thread (PSQL not supporting)
+    https://dzone.com/articles/multi-threading-in-spring-boot-using-completablefu
+    https://www.baeldung.com/java-util-concurrent
+    https://www.baeldung.com/thread-pool-java-and-guava
