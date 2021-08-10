@@ -7,7 +7,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 
 @RestController
 @RequestMapping("/api/persist/")
@@ -51,5 +54,23 @@ public class PersistController {
         log.debug("End of persisting data!");
 
         return new ResponseEntity<>("Time elapsed: " + (end - start) + " ms", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/trigger/rank", method = RequestMethod.GET)
+    public ResponseEntity<String> trigger_rank() {
+
+        log.debug("Start of persisting data!");
+        long start = System.currentTimeMillis();
+        persistService.trigger_rank();
+        long end = System.currentTimeMillis();
+        log.debug("End of persisting data!");
+
+        return new ResponseEntity<>("Time elapsed: " + (end - start) + " ms", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/trigger/rank/test", method = RequestMethod.GET)
+    public ResponseEntity<String> rank_test(@RequestParam(name = "p") String prevRank, @RequestParam(name = "n") String nextRank) {
+        String r = persistService.rank(prevRank, nextRank);
+        return new ResponseEntity<>(r, HttpStatus.OK);
     }
 }

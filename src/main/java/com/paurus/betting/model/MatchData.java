@@ -36,7 +36,7 @@ public class MatchData {
         date_insert = new Date();
     }
 
-    @Column(name = "rank", length = 3000)
+    @Column(name = "rank", length = 6000)
     private String rank;
 
     @Column(name = "next")
