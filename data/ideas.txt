@@ -19,6 +19,8 @@
     https://stackoverflow.com/questions/38923376/return-a-new-string-that-sorts-between-two-given-strings/38927158#38927158
 
 // thread (PSQL not supporting)
-    https://dzone.com/articles/multi-threading-in-spring-boot-using-completablefu
-    https://www.baeldung.com/java-util-concurrent
-    https://www.baeldung.com/thread-pool-java-and-guava
+    https://www.postgresql.org/docs/7.2/jdbc-thread.html
+    https://dba.stackexchange.com/questions/55019/can-a-single-postgresql-query-use-multiple-cores
+    https://www.geeksforgeeks.org/thread-pools-java/
+    https://howtodoinjava.com/java/multi-threading/executor-service-example/
+    https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/
