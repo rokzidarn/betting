@@ -68,6 +68,18 @@ public class PersistController {
         return new ResponseEntity<>("Time elapsed: " + (end - start) + " ms", HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/trigger/thread", method = RequestMethod.GET)
+    public ResponseEntity<String> trigger_thread() {
+
+        log.debug("Start of persisting data!");
+        long start = System.currentTimeMillis();
+        persistService.trigger_thread();
+        long end = System.currentTimeMillis();
+        log.debug("End of persisting data!");
+
+        return new ResponseEntity<>("Time elapsed: " + (end - start) + " ms", HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/trigger/rank/test", method = RequestMethod.GET)
     public ResponseEntity<String> rank_test(@RequestParam(name = "p") String prevRank, @RequestParam(name = "n") String nextRank) {
         String r = persistService.rank(prevRank, nextRank);

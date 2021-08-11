@@ -10,5 +10,6 @@ public interface IPersistService {
     void trigger_batch();
     void trigger_dll();
     void trigger_rank();
+    void trigger_thread();
     String rank(String prevRank, String nextRank);
 }

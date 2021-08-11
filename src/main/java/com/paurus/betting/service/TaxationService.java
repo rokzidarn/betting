@@ -19,8 +19,6 @@ public class TaxationService implements ITaxationService{
     @Value("#{${taxation.traders.amount}}")
     private Map<Integer, Double> amounts;
 
-    // TODO: refactor, join method rate/amount
-
     @Override
     public Outgoing generalByRate(Incoming data) {
         Double taxRate = rates.get(data.getTraderId());
@@ -66,6 +64,12 @@ public class TaxationService implements ITaxationService{
     }
 
     @Override
+    public Outgoing general(Incoming data) {
+        return null;
+    }
+
+
+    @Override
     public Outgoing winningsByRate(Incoming data) {
         Double taxRate = rates.get(data.getTraderId());
         Outgoing.OutgoingBuilder response = Outgoing.builder();
@@ -108,6 +112,12 @@ public class TaxationService implements ITaxationService{
 
         return response.build();
     }
+
+    @Override
+    public Outgoing winnings(Incoming data) {
+        return null;
+    }
+
 
     @Override
     public Taxation createEntity(Incoming request, Outgoing response) {

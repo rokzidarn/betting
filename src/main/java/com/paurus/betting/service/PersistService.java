@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -203,6 +206,45 @@ public class PersistService implements IPersistService {
             }
 
             persistRepository.save(entity);
+        }
+    }
+
+    @Override
+    public void trigger_thread() {
+        ExecutorService executor = Executors.newFixedThreadPool(5);
+
+        try (Stream<String> read = Files.lines(Paths.get("data/fo_random.txt"))) {
+            Stream<String> stream = read.skip(1);
+            Iterator<String> iterator = stream.iterator();
+
+            while (iterator.hasNext()) {
+                String[] data = iterator.next().split("\\|");
+
+                Runnable task = () -> {
+                    MatchData entity = createEntity(data);
+                    persistRepository.save(entity);
+                };
+
+                executor.execute(task);
+            }
+
+            try {
+                System.out.println("Attempt to shutdown executor");
+                executor.shutdown();
+                executor.awaitTermination(60, TimeUnit.SECONDS);
+            }
+            catch (InterruptedException e) {
+                System.err.println("Tasks interrupted");
+            }
+            finally {
+                if (!executor.isTerminated()) {
+                    System.err.println("Cancelling non-finished tasks");
+                }
+                executor.shutdownNow();
+                System.out.println("Shutdown finished");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
