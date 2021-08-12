@@ -12,5 +12,5 @@ public interface IPersistService {
     void trigger_rank();
     void trigger_thread();
     void trigger_final();
-    String rank(String prevRank, String nextRank);
+    String lexorank(String prevRank, String nextRank);
 }

@@ -92,7 +92,7 @@ public class PersistController {
 
     @RequestMapping(value = "/trigger/rank/test", method = RequestMethod.GET)
     public ResponseEntity<String> rank_test(@RequestParam(name = "p") String prevRank, @RequestParam(name = "n") String nextRank) {
-        String r = persistService.rank(prevRank, nextRank);
+        String r = persistService.lexorank(prevRank, nextRank);
         return new ResponseEntity<>(r, HttpStatus.OK);
     }
 }

@@ -197,7 +197,7 @@ public class PersistService implements IPersistService {
             }
 
             if (next != null && prev != null && prev.getRank() != null && next.getRank() != null) {
-                 entity.setRank(rank(prev.getRank(), next.getRank()));  // calculate rank, defines position, based on rank of previous/next
+                entity.setRank(lexorank(prev.getRank(), next.getRank()));  // calculate rank, defines position, based on rank of previous/next
             } else if (next == null && prev != null && prev.getRank() != null) {
                 entity.setRank(prev.getRank() + "0");
             } else {
@@ -232,11 +232,9 @@ public class PersistService implements IPersistService {
                 System.out.println("Attempt to shutdown executor");
                 executor.shutdown();
                 executor.awaitTermination(60, TimeUnit.SECONDS);
-            }
-            catch (InterruptedException e) {
+            } catch (InterruptedException e) {
                 System.err.println("Tasks interrupted");
-            }
-            finally {
+            } finally {
                 if (!executor.isTerminated()) {
                     System.err.println("Cancelling non-finished tasks");
                 }
@@ -302,7 +300,7 @@ public class PersistService implements IPersistService {
             }
 
             if (next != null && prev != null && prev.getRank() != null && next.getRank() != null) {
-                entity.setRank(rank(prev.getRank(), next.getRank()));  // calculate rank, defines position, based on rank of previous/next
+                entity.setRank(lexorank(prev.getRank(), next.getRank()));  // calculate rank, defines position, based on rank of previous/next
             } else if (next == null && prev != null && prev.getRank() != null) {
                 entity.setRank(prev.getRank() + "0");
             } else {
@@ -320,11 +318,9 @@ public class PersistService implements IPersistService {
             System.out.println("Attempt to shutdown executor");
             executor.shutdown();
             executor.awaitTermination(60, TimeUnit.SECONDS);
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             System.err.println("Tasks interrupted");
-        }
-        finally {
+        } finally {
             if (!executor.isTerminated()) {
                 System.err.println("Cancelling non-finished tasks");
             }
@@ -335,37 +331,43 @@ public class PersistService implements IPersistService {
 
     /**
      * LexoRank is ranking system that Jira Software uses which provides the ability to rank issues, i.e. lexicographical ordering
-     * @param prevRank - rank of previous element in sorted list
-     * @param nextRank - rank of next element in sorted list
-     * @return  calculated rank
+     *
+     * @param prev - rank of previous element in sorted list
+     * @param next - rank of next element in sorted list
+     * @return calculated rank
      */
     @Override
-    public String rank(String prevRank, String nextRank) {
-        StringBuilder rank = new StringBuilder();
-        int i = 0;
+    public String lexorank(String prev, String next) {
+        int min = 33;
+        int max = 126;
 
-        while (true) {
-            char prevChar = i >= prevRank.length() ? '0' : prevRank.charAt(i);
-            char nextChar = i >= nextRank.length() ? 'z' : nextRank.charAt(i);
+        int p = 0;
+        int n = 0;
+        int pos;
+        String str;
 
-            if (prevChar == nextChar) {
-                rank.append(prevChar);
-                i++;
-                continue;
-            }
-
-            char midChar = (char) ((prevChar + nextChar) / 2);
-            if (midChar == prevChar || midChar == nextChar) {
-                rank.append(prevChar);
-                i++;
-                continue;
-            }
-
-            rank.append(midChar);
-            break;
+        for (pos = 0; p == n; pos++) {
+            p = pos < prev.length() ? prev.charAt(pos) : min;
+            n = pos < next.length() ? next.charAt(pos) : max;
         }
 
-        // if (rank.toString().compareTo(nextRank) >= 0) // rebalance needed
-        return rank.toString();
+        str = prev.substring(0, pos - 1);
+        if (p == min) {
+            while (n == min + 1) {
+                n = pos < next.length() ? next.charAt(pos++) : max;
+                str += '0';
+            }
+            if (n == min + 2) {
+                str += '0';
+                n = max;
+            }
+        } else if (p + 1 == n) {
+            str += Character.toString(Character.toChars(p)[0]);
+            n = max;
+            while ((p = pos < prev.length() ? prev.charAt(pos++) : min) == max - 1) {
+                str += 'z';
+            }
+        }
+        return str + Character.toChars((int) Math.ceil((p + n) / 2))[0];
     }
 }
