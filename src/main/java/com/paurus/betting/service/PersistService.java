@@ -249,10 +249,89 @@ public class PersistService implements IPersistService {
     }
 
     @Override
-    public void trigger_final() {
-        // TODO: also add pgdump
-    }
+    public void trigger_final() {  // 302536
+        String[] alphanumeric = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy".split("");
 
+        Supplier<Stream<String>> read = () -> {  // use same stream multiple times
+            try {
+                return Files.lines(Paths.get("data/fo_random.txt"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        };
+
+        // initialization, gather some data, first N entities
+        Stream<String> initStream = read.get().skip(1).limit(alphanumeric.length);
+        List<String> initList = initStream.collect(Collectors.toList());
+        List<MatchData> all = new ArrayList<>();
+        for (String element : initList) {
+            all.add(createEntity(element.split("\\|")));
+        }
+
+        Comparator<MatchData> comparator = Comparator.comparing(MatchData::getMatchId)
+                .thenComparing(MatchData::getMarketId)
+                .thenComparing(MatchData::getOutcomeId)
+                .thenComparing(MatchData::getSpecifiers);
+        all.sort(comparator);  // sort entities
+
+        for (int i = 0; i < alphanumeric.length; i++) {
+            all.get(i).setRank(alphanumeric[i]);  // now sorted, assign base ranks
+        }
+        persistRepository.saveAll(all);
+
+        ExecutorService executor = Executors.newFixedThreadPool(5);  // start with multithreading
+
+        Stream<String> stream = read.get().skip(alphanumeric.length + 1);
+        Iterator<String> iterator = stream.iterator();
+        while (iterator.hasNext()) {
+            MatchData entity = createEntity(iterator.next().split("\\|"));
+            int index = Collections.binarySearch(all, entity, comparator);
+            if (index < 0) {
+                index = -index - 1;  // adds to appropriate position
+            }
+            all.add(index, entity);
+
+            // TODO: improve rank
+            MatchData next = null, prev = null;
+            if (index > 0) {
+                prev = all.get(index - 1);
+            }
+            if (index < all.size() - 1) {
+                next = all.get(index + 1);
+            }
+
+            if (next != null && prev != null && prev.getRank() != null && next.getRank() != null) {
+                entity.setRank(rank(prev.getRank(), next.getRank()));  // calculate rank, defines position, based on rank of previous/next
+            } else if (next == null && prev != null && prev.getRank() != null) {
+                entity.setRank(prev.getRank() + "0");
+            } else {
+                entity.setRank("-");
+            }
+
+            Runnable task = () -> {
+                persistRepository.save(entity);
+            };
+
+            executor.execute(task);  // multiple threads persisting data in parallel
+        }
+
+        try {
+            System.out.println("Attempt to shutdown executor");
+            executor.shutdown();
+            executor.awaitTermination(60, TimeUnit.SECONDS);
+        }
+        catch (InterruptedException e) {
+            System.err.println("Tasks interrupted");
+        }
+        finally {
+            if (!executor.isTerminated()) {
+                System.err.println("Cancelling non-finished tasks");
+            }
+            executor.shutdownNow();
+            System.out.println("Shutdown finished");
+        }
+    }
 
     /**
      * LexoRank is ranking system that Jira Software uses which provides the ability to rank issues, i.e. lexicographical ordering

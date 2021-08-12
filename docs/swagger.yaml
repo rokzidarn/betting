@@ -182,12 +182,12 @@ paths:
   /api/persist/trigger/{type}/:
     get:
       summary: Triggers persisting of data to database.
-      description: Types available = {baseline, batch, rank, thread, final}.
+      description: Types available = {baseline, batch, dll, rank, thread, final}.
       parameters:
         - in: path
           name: type
           schema:
-            type: integer
+            type: string
           required: true
           description: Type of persist strategy
       responses:

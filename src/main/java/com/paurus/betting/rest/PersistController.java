@@ -79,7 +79,7 @@ public class PersistController {
     }
 
     @RequestMapping(value = "/trigger/final", method = RequestMethod.GET)
-    public ResponseEntity<String> rank_test() {
+    public ResponseEntity<String> trigger_final() {
 
         log.debug("Start of persisting data!");
         long start = System.currentTimeMillis();

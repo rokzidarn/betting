@@ -24,3 +24,7 @@
     https://www.geeksforgeeks.org/thread-pools-java/
     https://howtodoinjava.com/java/multi-threading/executor-service-example/
     https://winterbe.com/posts/2015/04/30/java8-concurrency-tutorial-synchronized-locks-examples/
+
+// solutions
+    batch + thread -> exceptions, same speed as just with threads
+    thread + rank -> issue with rank calculation on bigger dataset, needs rebalance
