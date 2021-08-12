@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  title: TAXATION API
+  title: TASKS API
   version: 0.1.9
 paths:
   /api/taxation/general/rate/:
@@ -179,3 +179,25 @@ paths:
                   taxAmount:
                     type: number
                     description: Tax amount.
+  /api/persist/trigger/{type}/:
+    get:
+      summary: Triggers persisting of data to database.
+      description: Types available = {baseline, batch, rank, thread, final}.
+      parameters:
+        - in: path
+          name: type
+          schema:
+            type: integer
+          required: true
+          description: Type of persist strategy
+      responses:
+        '200':
+          description: Object
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  text:
+                    type: string
+                    description: Time elapsed.

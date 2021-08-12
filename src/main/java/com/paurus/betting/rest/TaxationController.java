@@ -24,7 +24,8 @@ public class TaxationController {
     @RequestMapping(value = "/general/rate", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Outgoing> calculateTaxByGeneralRate(@RequestBody Incoming request) {
         try {
-            Outgoing response = taxationService.generalByRate(request);
+            //Outgoing response = taxationService.generalByRate(request);
+            Outgoing response = taxationService.general(request, "rate");
             if (response.getError() == null) {
                 taxationRepository.save(taxationService.createEntity(request, response));
             }
@@ -38,7 +39,8 @@ public class TaxationController {
     @RequestMapping(value = "/general/amount", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Outgoing> calculateTaxByGeneralAmount(@RequestBody Incoming request) {
         try {
-            Outgoing response = taxationService.generalByAmount(request);
+            //Outgoing response = taxationService.generalByAmount(request);
+            Outgoing response = taxationService.general(request, "amount");
             if (response.getError() == null) {
                 taxationRepository.save(taxationService.createEntity(request, response));
             }
@@ -52,7 +54,8 @@ public class TaxationController {
     @RequestMapping(value = "/winnings/rate", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Outgoing> calculateTaxByWinningsRate(@RequestBody Incoming request) {
         try {
-            Outgoing response = taxationService.winningsByRate(request);
+            //Outgoing response = taxationService.winningsByRate(request);
+            Outgoing response = taxationService.winnings(request, "rate");
             if (response.getError() == null) {
                 taxationRepository.save(taxationService.createEntity(request, response));
             }
@@ -66,7 +69,8 @@ public class TaxationController {
     @RequestMapping(value = "/winnings/amount", method = RequestMethod.POST, consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
     public ResponseEntity<Outgoing> calculateTaxByWinningsAmount(@RequestBody Incoming request) {
         try {
-            Outgoing response = taxationService.winningsByAmount(request);
+            //Outgoing response = taxationService.winningsByAmount(request);
+            Outgoing response = taxationService.winnings(request, "amount");
             if (response.getError() == null) {
                 taxationRepository.save(taxationService.createEntity(request, response));
             }

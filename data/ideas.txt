@@ -18,7 +18,7 @@
     https://github.com/xissy/lexorank
     https://stackoverflow.com/questions/38923376/return-a-new-string-that-sorts-between-two-given-strings/38927158#38927158
 
-// thread (PSQL not supporting)
+// thread
     https://www.postgresql.org/docs/7.2/jdbc-thread.html
     https://dba.stackexchange.com/questions/55019/can-a-single-postgresql-query-use-multiple-cores
     https://www.geeksforgeeks.org/thread-pools-java/

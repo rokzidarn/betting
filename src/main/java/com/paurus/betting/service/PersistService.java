@@ -249,6 +249,11 @@ public class PersistService implements IPersistService {
     }
 
     @Override
+    public void trigger_final() {
+        // TODO
+    }
+
+    @Override
     public String rank(String prevRank, String nextRank) {
         StringBuilder rank = new StringBuilder();
         int i = 0;

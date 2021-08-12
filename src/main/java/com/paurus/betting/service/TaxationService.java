@@ -64,10 +64,29 @@ public class TaxationService implements ITaxationService{
     }
 
     @Override
-    public Outgoing general(Incoming data) {
-        return null;
-    }
+    public Outgoing general(Incoming data, String type) {
+        Double taxRate = type.equals("rate") ? rates.get(data.getTraderId()) : null;
+        Double taxAmount = type.equals("amount") ? amounts.get(data.getTraderId()) : null;
+        Outgoing.OutgoingBuilder response = Outgoing.builder();
 
+        if (taxRate == null && taxAmount == null) {
+            response.error("Tax rate/amount for this trader not found!");
+        } else {
+            double possibleReturnAmount = data.getPlayedAmount() * data.getOdd();  // 5.0 * 1.5 = 7.5
+            double possibleReturnAmountBefTax = possibleReturnAmount * 1.0;
+            double tax = taxRate != null ? possibleReturnAmount * taxRate : 0.0;  // 7.5 * 0.1 = 0.75
+            double possibleReturnAmountAfterTax = ((taxAmount != null && possibleReturnAmount > taxAmount) || taxRate != null) ?
+                    possibleReturnAmount - tax - (taxAmount != null ? taxAmount : 0.0) : 0.0;
+
+            response.taxRate(taxRate != null ? taxRate : 0.0)
+                    .taxAmount(taxAmount != null ? taxAmount : 0.0)
+                    .possibleReturnAmount(possibleReturnAmount)
+                    .possibleReturnAmountBefTax(possibleReturnAmountBefTax)
+                    .possibleReturnAmountAfterTax(possibleReturnAmountAfterTax);
+        }
+
+        return response.build();
+    }
 
     @Override
     public Outgoing winningsByRate(Incoming data) {
@@ -114,10 +133,34 @@ public class TaxationService implements ITaxationService{
     }
 
     @Override
-    public Outgoing winnings(Incoming data) {
-        return null;
-    }
+    public Outgoing winnings(Incoming data, String type) {
+        Double taxRate = type.equals("rate") ? rates.get(data.getTraderId()) : null;
+        Double taxAmount = type.equals("amount") ? amounts.get(data.getTraderId()) : null;
+        Outgoing.OutgoingBuilder response = Outgoing.builder();
 
+        if (taxRate == null && taxAmount == null) {
+            response.error("Tax rate/amount for this trader not found!");
+        } else {
+            double possibleReturnAmount = data.getPlayedAmount() * data.getOdd();  // 5.0 * 1.5 = 7.5
+            double possibleReturnAmountBefTax = possibleReturnAmount * 1.0;
+            double winnings = possibleReturnAmount - data.getPlayedAmount();  // 7.5 - 5.0 = 2.5
+            double possibleReturnAmountAfterTax = 0.0;
+
+            if (taxRate != null) {
+                possibleReturnAmountAfterTax = possibleReturnAmount - (winnings * taxRate);  // 7.5 - (2.5 * 0.1) = 7.25
+            } else { // taxAmount != null
+                possibleReturnAmountAfterTax = winnings > taxAmount ? winnings - taxAmount : 0.0;  // 2.5 - 1.0 = 1.5
+            }
+
+            response.taxRate(taxRate != null ? taxRate : 0.0)
+                    .taxAmount(taxAmount != null ? taxAmount : 0.0)
+                    .possibleReturnAmount(possibleReturnAmount)
+                    .possibleReturnAmountBefTax(possibleReturnAmountBefTax)
+                    .possibleReturnAmountAfterTax(possibleReturnAmountAfterTax);
+        }
+
+        return response.build();
+    }
 
     @Override
     public Taxation createEntity(Incoming request, Outgoing response) {

@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
 @RestController
 @RequestMapping("/api/persist/")
 @Slf4j
@@ -74,6 +72,18 @@ public class PersistController {
         log.debug("Start of persisting data!");
         long start = System.currentTimeMillis();
         persistService.trigger_thread();
+        long end = System.currentTimeMillis();
+        log.debug("End of persisting data!");
+
+        return new ResponseEntity<>("Time elapsed: " + (end - start) + " ms", HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/trigger/final", method = RequestMethod.GET)
+    public ResponseEntity<String> rank_test() {
+
+        log.debug("Start of persisting data!");
+        long start = System.currentTimeMillis();
+        persistService.trigger_final();
         long end = System.currentTimeMillis();
         log.debug("End of persisting data!");
 
