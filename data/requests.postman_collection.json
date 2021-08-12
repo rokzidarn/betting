@@ -1,0 +1,196 @@
+{
+	"info": {
+		"_postman_id": "46e142b9-5a81-4a76-9629-b6e1f1119a32",
+		"name": "P",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "TaxGenRate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"traderId\": 1,\r\n    \"playedAmount\": 5.0,\r\n    \"odd\": 1.5\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/taxation/general/rate/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"taxation",
+						"general",
+						"rate",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TaxGenAmount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"traderId\": 1,\r\n    \"playedAmount\": 5.0,\r\n    \"odd\": 1.5\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/taxation/general/amount/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"taxation",
+						"general",
+						"amount",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TaxWinRate",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"traderId\": 1,\r\n    \"playedAmount\": 5.0,\r\n    \"odd\": 1.5\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/taxation/winnings/rate/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"taxation",
+						"winnings",
+						"rate",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "TaxWinAmount",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"traderId\": 2,\r\n    \"playedAmount\": 5.0,\r\n    \"odd\": 1.5\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/taxation/winnings/amount/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"taxation",
+						"winnings",
+						"amount",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Trigger",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/persist/trigger/rank",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"persist",
+						"trigger",
+						"rank"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Rank Test",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/persist/trigger/rank/test?p=a&n=aacd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"persist",
+						"trigger",
+						"rank",
+						"test"
+					],
+					"query": [
+						{
+							"key": "p",
+							"value": "a"
+						},
+						{
+							"key": "n",
+							"value": "aacd"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

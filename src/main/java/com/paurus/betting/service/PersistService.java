@@ -39,7 +39,7 @@ public class PersistService implements IPersistService {
     }
 
     @Override
-    public void trigger_baseline() {
+    public void trigger_baseline() {  // basic sequential insert into DB, unsorted
         try (Stream<String> read = Files.lines(Paths.get("data/fo_random_partial.txt"))) {
             Stream<String> stream = read.skip(1);
 
@@ -53,7 +53,7 @@ public class PersistService implements IPersistService {
     }
 
     @Override
-    public void trigger_batch() {
+    public void trigger_batch() {  // improvement, now inserting in batches (example: 25 entities in one query)
         int batch_size = 25;
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         EntityTransaction tx = entityManager.getTransaction();
@@ -92,7 +92,7 @@ public class PersistService implements IPersistService {
     }
 
     @Override
-    public void trigger_dll() {
+    public void trigger_dll() {  // improvement, sorting, using basic doubly linked list
         try (Stream<String> read = Files.lines(Paths.get("data/fo_random_partial.txt"))) {
             Stream<String> stream = read.skip(1);
             Iterator<String> iterator = stream.iterator();
@@ -149,7 +149,7 @@ public class PersistService implements IPersistService {
     }
 
     @Override
-    public void trigger_rank() {
+    public void trigger_rank() {  // improvement, sorting, using lexorank algorithm
         String[] alphanumeric = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy".split("");
 
         Supplier<Stream<String>> read = () -> {
@@ -196,9 +196,9 @@ public class PersistService implements IPersistService {
                 next = all.get(index + 1);
             }
 
-            if (next != null && prev != null) {
-                 entity.setRank(rank(prev.getRank(), next.getRank()));
-            } else if (next == null && prev != null) {
+            if (next != null && prev != null && prev.getRank() != null && next.getRank() != null) {
+                 entity.setRank(rank(prev.getRank(), next.getRank()));  // calculate rank, defines position, based on rank of previous/next
+            } else if (next == null && prev != null && prev.getRank() != null) {
                 entity.setRank(prev.getRank() + "0");
             } else {
                 entity.setRank("-");
@@ -210,7 +210,7 @@ public class PersistService implements IPersistService {
     }
 
     @Override
-    public void trigger_thread() {
+    public void trigger_thread() {  // improvement, multiple threads working on persisting at the same time
         ExecutorService executor = Executors.newFixedThreadPool(5);
 
         try (Stream<String> read = Files.lines(Paths.get("data/fo_random.txt"))) {
@@ -250,9 +250,16 @@ public class PersistService implements IPersistService {
 
     @Override
     public void trigger_final() {
-        // TODO
+        // TODO: also add pgdump
     }
 
+
+    /**
+     * LexoRank is ranking system that Jira Software uses which provides the ability to rank issues, i.e. lexicographical ordering
+     * @param prevRank - rank of previous element in sorted list
+     * @param nextRank - rank of next element in sorted list
+     * @return  calculated rank
+     */
     @Override
     public String rank(String prevRank, String nextRank) {
         StringBuilder rank = new StringBuilder();

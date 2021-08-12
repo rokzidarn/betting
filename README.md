@@ -26,5 +26,3 @@ __________________
     4. Taxation rules found in application.properties
 
     5. To run persist tasks, again check Swagger to see which endpoints to call, data found in /data folder
-
-TODO: update postman collection and add pgdump, comments to code
