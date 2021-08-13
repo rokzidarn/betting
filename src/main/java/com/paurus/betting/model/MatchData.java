@@ -14,7 +14,6 @@ public class MatchData {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)  // because of batch operations
     private long id;
-    // TODO: remove in case of speeding up, now is up to Postgres, UUID.randomUUID();
 
     @Column(name = "match_id")
     private String matchId;

@@ -137,12 +137,6 @@ public class PersistService implements IPersistService {
                 persistRepository.saveAll(updates);
             }
 
-            /*
-            for (MatchData tmp : all) {
-                System.out.println(tmp.getMatchId());
-            }
-            */
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -211,7 +205,7 @@ public class PersistService implements IPersistService {
 
     @Override
     public void trigger_thread() {  // improvement, multiple threads working on persisting at the same time
-        ExecutorService executor = Executors.newFixedThreadPool(5);
+        ExecutorService executor = Executors.newFixedThreadPool(12);
 
         try (Stream<String> read = Files.lines(Paths.get("data/fo_random.txt"))) {
             Stream<String> stream = read.skip(1);
@@ -248,8 +242,6 @@ public class PersistService implements IPersistService {
 
     @Override
     public void trigger_final() {  // 302536
-        String[] alphanumeric = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxy".split("");
-
         Supplier<Stream<String>> read = () -> {  // use same stream multiple times
             try {
                 return Files.lines(Paths.get("data/fo_random.txt"));
@@ -259,29 +251,17 @@ public class PersistService implements IPersistService {
             return null;
         };
 
-        // initialization, gather some data, first N entities
-        Stream<String> initStream = read.get().skip(1).limit(alphanumeric.length);
-        List<String> initList = initStream.collect(Collectors.toList());
-        List<MatchData> all = new ArrayList<>();
-        for (String element : initList) {
-            all.add(createEntity(element.split("\\|")));
-        }
+        Stream<String> stream = Objects.requireNonNull(read.get()).skip(1);
+        Iterator<String> iterator = stream.iterator();
 
+        List<MatchData> all = new ArrayList<>();
         Comparator<MatchData> comparator = Comparator.comparing(MatchData::getMatchId)
                 .thenComparing(MatchData::getMarketId)
                 .thenComparing(MatchData::getOutcomeId)
                 .thenComparing(MatchData::getSpecifiers);
-        all.sort(comparator);  // sort entities
 
-        for (int i = 0; i < alphanumeric.length; i++) {
-            all.get(i).setRank(alphanumeric[i]);  // now sorted, assign base ranks
-        }
-        persistRepository.saveAll(all);
+        ExecutorService executor = Executors.newFixedThreadPool(12);  // start with multithreading
 
-        ExecutorService executor = Executors.newFixedThreadPool(5);  // start with multithreading
-
-        Stream<String> stream = read.get().skip(alphanumeric.length + 1);
-        Iterator<String> iterator = stream.iterator();
         while (iterator.hasNext()) {
             MatchData entity = createEntity(iterator.next().split("\\|"));
             int index = Collections.binarySearch(all, entity, comparator);
@@ -290,22 +270,16 @@ public class PersistService implements IPersistService {
             }
             all.add(index, entity);
 
-            // TODO: improve rank
-            MatchData next = null, prev = null;
+            String prevRank = "";
+            String nextRank = "";
             if (index > 0) {
-                prev = all.get(index - 1);
+                prevRank = all.get(index - 1).getRank();
             }
             if (index < all.size() - 1) {
-                next = all.get(index + 1);
+                nextRank = all.get(index + 1).getRank();
             }
 
-            if (next != null && prev != null && prev.getRank() != null && next.getRank() != null) {
-                entity.setRank(lexorank(prev.getRank(), next.getRank()));  // calculate rank, defines position, based on rank of previous/next
-            } else if (next == null && prev != null && prev.getRank() != null) {
-                entity.setRank(prev.getRank() + "0");
-            } else {
-                entity.setRank("-");
-            }
+            entity.setRank(lexorank(prevRank, nextRank));  // calculate rank, defines position, based on rank of previous/next
 
             Runnable task = () -> {
                 persistRepository.save(entity);

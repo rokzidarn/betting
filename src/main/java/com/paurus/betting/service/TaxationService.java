@@ -19,6 +19,7 @@ public class TaxationService implements ITaxationService{
     @Value("#{${taxation.traders.amount}}")
     private Map<Integer, Double> amounts;
 
+    @Deprecated
     @Override
     public Outgoing generalByRate(Incoming data) {
         Double taxRate = rates.get(data.getTraderId());
@@ -41,6 +42,7 @@ public class TaxationService implements ITaxationService{
         return response.build();
     }
 
+    @Deprecated
     @Override
     public Outgoing generalByAmount(Incoming data) {
         Double taxAmount = amounts.get(data.getTraderId());
@@ -88,6 +90,7 @@ public class TaxationService implements ITaxationService{
         return response.build();
     }
 
+    @Deprecated
     @Override
     public Outgoing winningsByRate(Incoming data) {
         Double taxRate = rates.get(data.getTraderId());
@@ -110,6 +113,7 @@ public class TaxationService implements ITaxationService{
         return response.build();
     }
 
+    @Deprecated
     @Override
     public Outgoing winningsByAmount(Incoming data) {
         Double taxAmount = amounts.get(data.getTraderId());
